@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackerský Lab - Interaktivní učení IT systémů</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e0b;
+            --bg-secondary: #0f1410;
+            --bg-tertiary: #141b15;
+            --green: #00ff00;
+            --green-dim: #00cc00;
+            --green-dark: #009900;
+            --text: #e8f8e8;
+            --text-dim: #70a070;
+            --border: #1a3a1a;
+            --glow: 0 0 20px rgba(0, 255, 0, 0.3);
+            --glow-strong: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--green);
+            border-radius: 5px;
+        }
+
+        .app-wrapper {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            grid-template-rows: 65px 1fr;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            grid-column: 1 / -1;
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--green);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--glow);
+        }
+
+        .navbar-brand {
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--green);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+        }
+
+        .navbar-brand::before {
+            content: ">>> ";
+        }
+
+        .navbar-status {
+            font-size: 0.7em;
+            color: var(--green);
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .sidebar {
+            grid-row: 2;
+            background: var(--bg-secondary);
+            border-right: 2px solid var(--border);
+            padding: 15px 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-section-title {
+            font-size: 0.65em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            font-weight: 600;
+            padding: 8px 5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-item {
+            padding: 10px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8em;
+            color: var(--text-dim);
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 255, 0, 0.05);
+            color: var(--green);
+            border-left-color: var(--green);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--green);
+            border-left-color: var(--green);
+            text-shadow: 0 0 8px var(--green);
+            box-shadow: var(--glow);
+        }
+
+        .content-wrapper {
+            grid-row: 2;
+            grid-column: 2;
+            overflow-y: auto;
+            padding: 25px;
+        }
+
+        .section-hidden {
+            display: none;
+        }
+
+        .panel {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.4s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-header h1 {
+            font-size: 1.6em;
+            color: var(--green);
+            text-shadow: 0 0 10px var(--green);
+        }
+
+        .panel-icon {
+            font-size: 1.4em;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-box {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid var(--green);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--glow);
+        }
+
+        .intro-box h2 {
+            color: var(--green);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .intro-box p {
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        .subsection-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .subsection-btn {
+            padding: 8px 15px;
+            background: transparent;
+            border: 1px solid var(--green);
+            color: var(--green);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75em;
+            transition: all 0.2s ease;
+        }
+
+        .subsection-btn:hover {
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .subsection-btn.active {
+            background: var(--green);
+            color: var(--bg);
+            box-shadow: var(--glow);
+        }
+
+        .subsection-content {
+            display: none;
+        }
+
+        .subsection-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section-title {
+            color: var(--green);
+            font-size: 1.3em;
+            margin: 20px 0 12px 0;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .definition-box {
+            background: rgba(0, 255, 0, 0.05);
+            border-left: 3px solid var(--green);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .definition-box strong {
+            color: var(--green);
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8em;
+            color: var(--green);
+            line-height: 1.5;
+        }
+
+        .list-styled {
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .list-styled li {
+            padding: 6px 0 6px 20px;
+            position: relative;
+            color: var(--text-dim);
+            font-size: 0.9em;
+        }
+
+        .list-styled li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-size: 0.7em;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8em;
+        }
+
+        .data-table th {
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--green);
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 10px;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .data-table tr:hover {
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--green);
+            color: var(--bg);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .boot-terminal {
+            background: var(--bg-secondary);
+            border: 2px solid var(--green);
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--glow-strong);
+            min-height: 180px;
+        }
+
+        .boot-line {
+            color: var(--green);
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            opacity: 0;
+            animation: typeIn 0.3s ease forwards;
+        }
+
+        .boot-line:nth-child(1) { animation-delay: 0.2s; }
+        .boot-line:nth-child(2) { animation-delay: 0.8s; }
+        .boot-line:nth-child(3) { animation-delay: 1.4s; }
+
+        @keyframes typeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        .feature-card:hover {
+            border-color: var(--green);
+            box-shadow: var(--glow);
+        }
+
+        .feature-card h3 {
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 0.9em;
+        }
+
+        .hero-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 30px 0 15px 0;
+            color: var(--green);
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+        }
+
+        .hero-subtitle {
+            font-size: 0.95em;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .quiz-setup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-setup-panel {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-item input {
+            accent-color: var(--green);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .app-wrapper {
+                grid-template-columns: 220px 1fr;
+            }
+            
+            .quiz-setup {
+                grid-template-columns: 1fr;
+            }
+
+            .content-wrapper {
+                padding: 15px;
+            }
+
+            .panel {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .subsection-nav {
+                gap: 6px;
+            }
+
+            .subsection-btn {
+                padding: 6px 12px;
+                font-size: 0.7em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-wrapper {
+                grid-template-columns: 1fr;
+                grid-template-rows: 65px auto 1fr;
+            }
+            
+            .sidebar {
+                grid-column: 1;
+                grid-row: 2;
+                max-height: 60px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                flex-direction: row;
+                white-space: nowrap;
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+            }
+
+            .nav-section {
+                flex-direction: row;
+                gap: 0;
+            }
+
+            .nav-section-title {
+                display: none;
+            }
+
+            .nav-item {
+                padding: 8px 10px;
+                font-size: 0.7em;
+                flex-shrink: 0;
+            }
+
+            .content-wrapper {
+                grid-column: 1;
+                grid-row: 3;
+                padding: 12px;
+            }
+
+            .subsection-nav {
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .subsection-btn {
+                padding: 6px 10px;
+                font-size: 0.65em;
+            }
+
+            .hero-title {
+                font-size: 1.4em;
+            }
+
+            .panel-header h1 {
+                font-size: 1.1em;
+            }
+
+            .section-title {
+                font-size: 1.1em;
+            }
+
+            .table-container {
+                font-size: 0.75em;
+            }
+
+            .quiz-setup {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .quiz-setup-panel {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.2em;
+            }
+
+            .subsection-btn {
+                padding: 6px 8px;
+                font-size: 0.6em;
+            }
+
+            .panel {
+                padding: 12px;
+            }
+
+            .definition-box {
+                padding: 12px;
+            }
+
+            .data-table {
+                font-size: 0.7em;
+            }
+
+            .data-table td,
+            .data-table th {
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="navbar-brand">HACKERLAB</div>
+            <div class="navbar-status">
+                <span class="status-dot"></span>
+                <span style="font-size: 0.8em; color: var(--green);">SYS OK</span>
+            </div>
+        </nav>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Menu</div>
+                <div class="nav-item active" onclick="showMain('home')">🏠 Domů</div>
+                <div class="nav-item" onclick="showMain('lessons')">📚 Lekce</div>
+                <div class="nav-item" onclick="showMain('quiz')">🧪 Kvíz</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sekce</div>
+                <div class="nav-item" onclick="showLesson('internet')">🌐 Internet</div>
+                <div class="nav-item" onclick="showLesson('network')">🕸️ Sítě</div>
+                <div class="nav-item" onclick="showLesson('licensing')">⚖️ Licence</div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="content-wrapper">
+            <!-- HOME SECTION -->
+            <div id="home" class="">
+                <div class="boot-terminal">
+                    <div class="boot-line">$ kernel init sequence starting...</div>
+                    <div class="boot-line">$ načítání databáze znalostí...</div>
+                    <div class="boot-line">$ inicializace hackerského prostředí...</div>
+                </div>
+
+                <div class="panel">
+                    <h1 class="hero-title">>> HACKERSKÝ LAB <<<</h1>
+                    <p class="hero-subtitle">Interaktivní učení o Internetu, sítích a softwarových licencích. Technicky hluboké poznatky v prostředí hackerského terminálu.</p>
+                    
+                    <button class="btn" onclick="showMain('lessons')" style="margin-right: 10px;">ZAČÍT UČIT SE</button>
+                    <button class="btn" onclick="showMain('quiz')">SPUSTIT KVÍZ</button>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">⚙️</span>
+                        <h1>ZÁKLADNÍ MODULY</h1>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card" onclick="showLesson('internet')">
+                            <h3>🌐 INTERNET</h3>
+                            <p>Globální síť, TCP/IP, DNS, ISP, přenos dat a infrastruktura</p>
+                        </div>
+                        <div class="feature-card" onclick="showLesson('network')">
+                            <h3>🕸️ SÍTĚ</h3>
+                            <p>IP adresy, NAT, zařízení, topologie, DHCP, technologie</p>
+                        </div>
+                        <div class="feature-card" onclick="showLesson('licensing')">
+                            <h3>⚖️ LICENCE</h3>
+                            <p>Autorská práva, proprietární SW, open source, svobody</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSONS SECTION -->
+            <div id="lessons" class="section-hidden">
+                <!-- INTERNET SECTION -->
+                <div id="internet-section" class="section-hidden">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-icon">🌐</span>
+                            <h1>INTERNET</h1>
+                        </div>
+
+                        <div class="intro-box">
+                            <h2>Úvod do Internetu</h2>
+                            <p>Internet není jen "velká síť". Je to globální systém propojených počítačových sítí řízený standardizovanými protokoly. Nikdo jej nevlastní, a právě to je jeho síla. Bez centrálního řídícího bodu, s redundancí a otevřenými standardy. Internet je síť síťí.</p>
+                        </div>
+
+                        <div class="subsection-nav">
+                            <button class="subsection-btn active" onclick="showSubsection(event, 'inet-1')">Co je Internet?</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-2')">Vlastnictví</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-3')">Stavební Kameny</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-4')">TCP/IP</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-5')">Přenos Dat</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-6')">ISP</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'inet-7')">DNS</button>
+                        </div>
+
+                        <!-- Subsection 1: Co je Internet -->
+                        <div id="inet-1" class="subsection-content active">
+                            <h3 class="section-title">Co je Internet?</h3>
+                            <div class="definition-box">
+                                <strong>Internet</strong> = Globální systém propojených počítačových sítí, které spolu komunikují pomocí standardizovaných protokolů a nejsou řízeny jedním centrálním subjektem.
+                            </div>
+                            <ul class="list-styled">
+                                <li>Spolu komunikují pomocí standardizovaných protokolů</li>
+                                <li>Nejsou řízeny jedním centrálním subjektem</li>
+                                <li>Používají adresní a směrovací infrastrukturu</li>
+                                <li>Globální dosah - propojuje kontinenty</li>
+                                <li>Decentralizace - žádný jediný vlastník</li>
+                                <li>Redundance - více cest k cíli</li>
+                                <li>Otevřené standardy - RFC, TCP/IP</li>
+                                <li>Odolnost - přežije jednotlivé výpadky</li>
+                            </ul>
+                        </div>
+
+                        <!-- Subsection 2: Vlastnictví -->
+                        <div id="inet-2" class="subsection-content">
+                            <h3 class="section-title">Kdo vlastní Internet?</h3>
+                            <div class="definition-box">
+                                <strong>Nikdo</strong> - a právě to je jeho síla. Internet nemá vlastníka, nemá centrální řídicí bod. Řídí se dohodnutými pravidly.
+                            </div>
+
+                            <h3 class="section-title">Organizace řídící Internet</h3>
+                            <ul class="list-styled">
+                                <li><strong>ISOC</strong> - Internet Society, rozvoj internetu</li>
+                                <li><strong>IETF</strong> - Internet Engineering Task Force, technické standardy (RFC)</li>
+                                <li><strong>ICANN / IANA</strong> - správa domén a IP adres globálně</li>
+                                <li><strong>CZ.NIC</strong> - správa domény .cz</li>
+                            </ul>
+
+                            <p style="color: var(--text-dim); margin-top: 15px; font-size: 0.9em;">Tyto organizace nejsou vlastníky, ale správci - zajišťují interoperabilitu a fair přidělování zdrojů.</p>
+                        </div>
+
+                        <!-- Subsection 3: Stavební Kameny -->
+                        <div id="inet-3" class="subsection-content">
+                            <h3 class="section-title">Základní stavební kameny Internetu</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 15px;">Aby mohl Internet fungovat, potřebuje:</p>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>1) Koncová zařízení</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">PC, mobil, server, IoT zařízení</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>2) Přenosová infrastruktura</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Optika, metalika (měď), bezdrátové spoje</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>3) Síťová zařízení</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Switche, routery, brány, uzly</span>
+                            </div>
+
+                            <div class="definition-box">
+                                <strong>4) Protokoly</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">TCP/IP, HTTP, HTTPS, DNS, SMTP...</span>
+                            </div>
+
+                            <p style="color: var(--green); margin-top: 15px; font-weight: 600;">Bez jediného z těchto prvků Internet nefunguje.</p>
+                        </div>
+
+                        <!-- Subsection 4: TCP/IP -->
+                        <div id="inet-4" class="subsection-content">
+                            <h3 class="section-title">Protokoly: Jazyk Internetu</h3>
+                            <div class="definition-box">
+                                <strong>Protokol</strong> = Soubor pravidel, který říká kdy, jak a v jaké podobě se posílají data.
+                            </div>
+
+                            <h3 class="section-title">Rodina protokolů TCP/IP (4 vrstvy)</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vrstva</th>
+                                            <th>Protokoly</th>
+                                            <th>Funkce</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Aplikační</strong></td>
+                                            <td>HTTP, HTTPS, SMTP, DNS, FTP</td>
+                                            <td>Uživatelské služby, webové stránky, e-mail</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Transportní</strong></td>
+                                            <td>TCP, UDP, ICMP</td>
+                                            <td>Tok dat a kontrola chyb, přenosová nadежnost</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Internetová</strong></td>
+                                            <td>IP (v4, v6), IGMP</td>
+                                            <td>Adresování a směrování mezi sítěmi</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Přístup (Link)</strong></td>
+                                            <td>Ethernet, Wi-Fi, PPP</td>
+                                            <td>Fyzický přenos, drátované/bezdrátové spojení</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p style="color: var(--text-dim); margin-top: 15px; font-size: 0.9em;">Každá vrstva řeší jen svou část problému. Výhoda: Když se rozbije jedna vrstva, nemusíme měnit celý Internet.</p>
+                        </div>
+
+                        <!-- Subsection 5: Přenos Dat -->
+                        <div id="inet-5" class="subsection-content">
+                            <h3 class="section-title">Přenos dat a pakety</h3>
+                            <div class="definition-box">
+                                <strong>Paket</strong> = Diskrétní jednotka dat se záhlavím (metadata) a payloadem (skutečná data). Internet směruje pakety nezávisle.
+                            </div>
+
+                            <h3 class="section-title">Proces odeslání dat</h3>
+                            <ul class="list-styled">
+                                <li>Data se rozdělí na pakety</li>
+                                <li>Každý paket dostane zdrojovou IP adresu</li>
+                                <li>Každý paket dostane cílovou IP adresu</li>
+                                <li>Pakety mohou jít různými cestami sítí</li>
+                                <li>Pakety mohou dorazit v jiném pořadí</li>
+                                <li>TCP protokol zkontroluje správnost</li>
+                                <li>Data se poskládají zpět v správném pořadí</li>
+                            </ul>
+
+                            <h3 class="section-title">Odolnost vůči výpadkům</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">Internet je navržen pro přežití poruch, ne pro komfort:</p>
+                            <ul class="list-styled">
+                                <li>Decentralizace - žádný jediný bod selhání</li>
+                                <li>Redundantní směrování - více cest k cíli</li>
+                                <li>Automatické přesměrování - při výpadku linky</li>
+                                <li>Výpadek jednoho uzlu ≠ konec komunikace</li>
+                            </ul>
+                        </div>
+
+                        <!-- Subsection 6: ISP -->
+                        <div id="inet-6" class="subsection-content">
+                            <h3 class="section-title">ISP - Internet Service Provider</h3>
+                            <div class="definition-box">
+                                <strong>ISP</strong> = Poskytovatel internetového připojení. Vlastní infrastrukturu, přiděluje IP adresy, zajišťuje spojení do páteřní sítě.
+                            </div>
+
+                            <h3 class="section-title">Odpovědnosti ISP</h3>
+                            <ul class="list-styled">
+                                <li>Vlastní nebo pronajímá infrastrukturu (vlákna, měď, bezdrát)</li>
+                                <li>Přiděluje veřejné IP adresy svým zákazníkům</li>
+                                <li>Spravuje lokální DNS servery</li>
+                                <li>Připojuje jednotlivé uživatele do vyšších sítí (backbone)</li>
+                                <li>Zajišťuje technickou podporu a údržbu</li>
+                            </ul>
+
+                            <h3 class="section-title">Přístupová vs Páteřní síť</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Typ sítě</th>
+                                            <th>Popis</th>
+                                            <th>Charakteristika</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Přístupová (Access)</strong></td>
+                                            <td>Poslední úsek k uživateli, "poslední míle"</td>
+                                            <td>Fyzická vzdálenost, kvalita kabelu</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Páteřní (Backbone)</strong></td>
+                                            <td>Vysokokapacitní optické trasy mezi datovými centry</td>
+                                            <td>Složitá správa, vysoké náklady</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p style="color: var(--green); margin-top: 15px; font-weight: 600;">⚠️ 90% problémů s připojením je na posledním kilometru (přístupová síť)!</p>
+                        </div>
+
+                        <!-- Subsection 7: DNS -->
+                        <div id="inet-7" class="subsection-content">
+                            <h3 class="section-title">DNS - Domain Name System</h3>
+                            <div class="definition-box">
+                                <strong>DNS</strong> = Systém doménových jmen. Překládá doménová jména na IP adresy. Funguje jako "internetový telefonní seznam".
+                            </div>
+
+                            <h3 class="section-title">Jak DNS funguje</h3>
+                            <ol style="margin-left: 18px; color: var(--text-dim); font-size: 0.9em; margin-bottom: 15px;">
+                                <li>Prohlížeč se ptá DNS resolveru (zpravidla ISP)</li>
+                                <li>Resolver se ptá rootového serveru</li>
+                                <li>Root nasměruje na TLD server (.cz, .com, .org)</li>
+                                <li>TLD nasměruje na autoritativní server domény</li>
+                                <li>Autorita vrátí IP adresu</li>
+                                <li>Resolver vrátí výsledek prohlížeči</li>
+                            </ol>
+
+                            <h3 class="section-title">Veřejné DNS servery</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Poskytovatel</th>
+                                            <th>Adresa</th>
+                                            <th>Poznámka</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Google</td>
+                                            <td>8.8.8.8, 8.8.4.4</td>
+                                            <td>Nejpopulárnější</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cloudflare</td>
+                                            <td>1.1.1.1, 1.0.0.1</td>
+                                            <td>Bezpečné a soukromé</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Quad9</td>
+                                            <td>9.9.9.9</td>
+                                            <td>Bezpečnost a soukromí</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NETWORK SECTION -->
+                <div id="network-section" class="section-hidden">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-icon">🕸️</span>
+                            <h1>POČÍTAČOVÉ SÍTĚ</h1>
+                        </div>
+
+                        <div class="intro-box">
+                            <h2>Úvod do síťových systémů</h2>
+                            <p>Počítačové sítě propojují zařízení pro komunikaci a sdílení dat. Pochopení IP adresování, NAT, topologií a síťových zařízení je klíčové. Od osobních sítí (PAN) až po globální sítě (WAN), každá má svůj účel a charakteristiky.</p>
+                        </div>
+
+                        <div class="subsection-nav">
+                            <button class="subsection-btn active" onclick="showSubsection(event, 'net-1')">IP Adresování</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-2')">NAT</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-3')">Zařízení</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-4')">Topologie</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-5')">DHCP</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-6')">Velikost Sítí</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'net-7')">Připojení</button>
+                        </div>
+
+                        <!-- Subsection 1: IP Adresování -->
+                        <div id="net-1" class="subsection-content active">
+                            <h3 class="section-title">IP Adresování</h3>
+                            <div class="definition-box">
+                                <strong>IP adresa</strong> = Číselné označení zařízení v síti. Nutná pro směrování dat.
+                            </div>
+
+                            <h3 class="section-title">IPv4 vs IPv6</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vlastnost</th>
+                                            <th>IPv4</th>
+                                            <th>IPv6</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Velikost</td>
+                                            <td>32 bitů</td>
+                                            <td>128 bitů</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Příklad</td>
+                                            <td>192.168.1.10</td>
+                                            <td>2001:0db8:85a3::8a2e</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Počet adres</td>
+                                            <td>~4.3 miliardy</td>
+                                            <td>~340 undecilionů</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>Vyprodáno</td>
+                                            <td>Prakticky nevyčerpatelný</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="section-title">Struktura IPv4 adresy</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">IPv4 adresa se skládá ze dvou částí:</p>
+                            <ul class="list-styled">
+                                <li><strong>Síťová část</strong> - určuje síť</li>
+                                <li><strong>Hostitelská část</strong> - určuje konkrétní zařízení v síti</li>
+                            </ul>
+
+                            <h3 class="section-title">Maska sítě (Network Mask)</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">Příklad: 255.255.255.0</p>
+                            <ul class="list-styled">
+                                <li>V binárním: 11111111.11111111.11111111.00000000</li>
+                                <li>1 = síť, 0 = zařízení</li>
+                                <li>Poslední oktet určuje zařízení (0-255)</li>
+                                <li>Síť má 254 použitelných IP adres (0 a 255 vyhrazeny)</li>
+                            </ul>
+
+                            <h3 class="section-title">Speciální IP adresy v síti</h3>
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Síťová adresa:</strong> 192.168.1.0 - označuje celou síť
+                            </div>
+                            <div class="definition-box">
+                                <strong>Broadcast adresa:</strong> 192.168.1.255 - zpráva pro všechna zařízení
+                            </div>
+
+                            <h3 class="section-title">Veřejné vs Privátní IP adresy</h3>
+                            <ul class="list-styled">
+                                <li><strong>Privátní IPv4:</strong> 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</li>
+                                <li><strong>Veřejná IPv4:</strong> Všechny ostatní (viditelné z Internetu)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Subsection 2: NAT -->
+                        <div id="net-2" class="subsection-content">
+                            <h3 class="section-title">NAT - Network Address Translation</h3>
+                            <div class="definition-box">
+                                <strong>NAT</strong> = Překladá privátní IP adresy na veřejné IP. Kritické pro šetření IPv4 adres.
+                            </div>
+
+                            <h3 class="section-title">Jak NAT funguje</h3>
+                            <ul class="list-styled">
+                                <li>Více zařízení v síti sdílí jednu veřejnou IP adresu</li>
+                                <li>Router překládá privátní IP ↔ veřejná IP</li>
+                                <li>Zvenčí vidíte jen jednu IP adresu</li>
+                                <li>Skrývá vnitřní síť před Internetem (bezpečnost)</li>
+                            </ul>
+
+                            <h3 class="section-title">Přínosy NAT</h3>
+                            <ul class="list-styled">
+                                <li><strong>Úspora IPv4 adres</strong> - bez NATu by každé zařízení potřebovalo vlastní IP</li>
+                                <li><strong>Bezpečnost</strong> - vnitřní síť je skrytá</li>
+                                <li><strong>Zjednodušení</strong> - snadnější správa domácí sítě</li>
+                            </ul>
+
+                            <h3 class="section-title">Nevýhody NAT</h3>
+                            <ul class="list-styled">
+                                <li>Komplikuje některé služby (P2P, hry)</li>
+                                <li>Omezuje přímou komunikaci z Internetu do sítě</li>
+                                <li>Vyžaduje port forwarding pro veřejné služby</li>
+                            </ul>
+                        </div>
+
+                        <!-- Subsection 3: Zařízení -->
+                        <div id="net-3" class="subsection-content">
+                            <h3 class="section-title">Síťová zařízení</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 15px;">Síťová zařízení propojují zařízení v síti, řídí tok dat a propojují různé sítě.</p>
+
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Zařízení</th>
+                                            <th>Vrstva</th>
+                                            <th>Funkce</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Hub</strong></td>
+                                            <td>L1</td>
+                                            <td>Vysílá všem portům (zastaralé)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Switch</strong></td>
+                                            <td>L2</td>
+                                            <td>Inteligentní přesměrování (podle MAC adresy)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Router</strong></td>
+                                            <td>L3</td>
+                                            <td>Směrování mezi sítěmi (IP adresy)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Bridge</strong></td>
+                                            <td>L2</td>
+                                            <td>Propojování LAN segmentů</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>AP</strong></td>
+                                            <td>L1-L2</td>
+                                            <td>Wi-Fi vysílač (bezdrátový switch)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Subsection 4: Topologie -->
+                        <div id="net-4" class="subsection-content">
+                            <h3 class="section-title">Topologie počítačových sítí</h3>
+                            <div class="definition-box">
+                                <strong>Topologie</strong> = Popis jak jsou zařízení v síti uspořádána a propojena.
+                            </div>
+
+                            <h3 class="section-title">Typy topologií</h3>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Hvězdicová (STAR) ⭐ NEJPOUŽÍVANĚJŠÍ</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Všechna zařízení k centrálnímu switchi. Vysoká spolehlivost, snadná správa.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Stromová (TREE)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Hierarchické uspořádání hvězd. Firemní/školní sítě, kampusy.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Plně propojena (MESH)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Každé zařízení s každým. Extrémní spolehlivost, vysoké náklady.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Sběrnicová (BUS)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Všechna na jednom kabelu. Zastaralá, kolize dat.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Kruhová (RING)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Zařízení v kruhu. Historicky Token Ring, dnes vzácná.</span>
+                            </div>
+
+                            <div class="definition-box">
+                                <strong>Liniová (LINE)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Zařízení za sebou v řadě. Nízká spolehlivost, dnes vyjimečně.</span>
+                            </div>
+                        </div>
+
+                        <!-- Subsection 5: DHCP -->
+                        <div id="net-5" class="subsection-content">
+                            <h3 class="section-title">DHCP - Dynamic Host Configuration Protocol</h3>
+                            <div class="definition-box">
+                                <strong>DHCP</strong> = Protokol, který automaticky nastavuje síťové parametry zařízení.
+                            </div>
+
+                            <h3 class="section-title">Co DHCP přiděluje?</h3>
+                            <ul class="list-styled">
+                                <li>IP adresu</li>
+                                <li>Masku sítě</li>
+                                <li>Výchozí bránu (gateway)</li>
+                                <li>DNS server(y)</li>
+                            </ul>
+
+                            <h3 class="section-title">DHCP server vs klient</h3>
+                            <ul class="list-styled">
+                                <li><strong>DHCP Klient:</strong> Koncové zařízení (PC, mobil, tablet) - žádá o konfiguraci</li>
+                                <li><strong>DHCP Server:</strong> Typicky router - eviduje přidělené adresy, hlídá jejich platnost</li>
+                            </ul>
+
+                            <h3 class="section-title">Proces přidělení (DHCP Lease)</h3>
+                            <ol style="margin-left: 18px; color: var(--text-dim); font-size: 0.9em;">
+                                <li>Zařízení vyšle DHCP žádost</li>
+                                <li>DHCP server nabídne IP adresu</li>
+                                <li>Zařízení nabídku přijme (ACK)</li>
+                                <li>Server ji dočasně přidělí na dobu platnosti (lease time)</li>
+                                <li>Po vypršení - prodloužení nebo nová IP</li>
+                            </ol>
+
+                            <h3 class="section-title">Výhody DHCP</h3>
+                            <ul class="list-styled">
+                                <li>Žádné ruční nastavení - uživatel jen připojí</li>
+                                <li>Žádné konflikty IP adres</li>
+                                <li>Efektivní správa sítě</li>
+                            </ul>
+                        </div>
+
+                        <!-- Subsection 6: Velikost Sítí -->
+                        <div id="net-6" class="subsection-content">
+                            <h3 class="section-title">Počítačové sítě podle velikosti</h3>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>PAN (Personal Area Network)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Osobní síť (jednotky metrů). Mobil ↔ sluchátka, Bluetooth, USB, NFC.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>LAN (Local Area Network)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Lokální síť (domácnost, škola, firma). Vysoká rychlost. Switch, router, koncová zařízení.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>MAN (Metropolitan Area Network)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Metropolitní síť (město). Propojuje více LAN sítí. Univerzitní kampusy, městské sítě.</span>
+                            </div>
+
+                            <div class="definition-box">
+                                <strong>WAN (Wide Area Network)</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Rozlehlá síť (státy, kontinenty). Propojuje LAN a MAN. Typický příklad: INTERNET.</span>
+                            </div>
+                        </div>
+
+                        <!-- Subsection 7: Připojení -->
+                        <div id="net-7" class="subsection-content">
+                            <h3 class="section-title">Připojení k internetu - Co je potřeba?</h3>
+                            <ul class="list-styled">
+                                <li>IP adresa (nebo ji přidělí DHCP)</li>
+                                <li>Výchozí brána (gateway) - cesta ven ze sítě</li>
+                                <li>DNS server</li>
+                                <li>Fyzická nebo bezdrátová cesta ven (kabel, Wi-Fi)</li>
+                            </ul>
+
+                            <h3 class="section-title">Základní technologie připojení</h3>
+                            <ul class="list-styled">
+                                <li><strong>DSL</strong> - přes telefonní linku, pomalejší</li>
+                                <li><strong>Optika (Fiber)</strong> - velmi rychlá, budoucnost</li>
+                                <li><strong>LTE / 5G</strong> - mobilní bezdrátové připojení</li>
+                                <li><strong>Satelit</strong> - pro vzdálená místa, vysoká latence</li>
+                            </ul>
+
+                            <h3 class="section-title">Důležité parametry připojení</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">Rychlost je jen jeden z parametrů!</p>
+                            <ul class="list-styled">
+                                <li><strong>Download/Upload</strong> - šířka pásma (Mbps)</li>
+                                <li><strong>Latence</strong> - čas odpovědi (ms), kritické pro hry</li>
+                                <li><strong>Jitter</strong> - kolísání latence, problém pro video hovory</li>
+                                <li><strong>Ztratovost packetů</strong> - procento ztracených dat (ideálně 0%)</li>
+                            </ul>
+
+                            <h3 class="section-title">Agregace</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">= Kolik uživatelů sdílí jednu linku (1:10, 1:50)</p>
+                            <ul class="list-styled">
+                                <li>Větší agregace = levnější, ale méně stabilní</li>
+                                <li>Ve špičce se rychlost dělí mezi uživatele</li>
+                            </ul>
+
+                            <p style="color: var(--green); margin-top: 12px; font-weight: 600;">⚠️ "Mám 1 Gb/s, takže mi hry nemohou lagovat" - CHYBA! Latence je důležitější!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LICENSING SECTION -->
+                <div id="licensing-section" class="section-hidden">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-icon">⚖️</span>
+                            <h1>SOFTWAROVÉ LICENCE</h1>
+                        </div>
+
+                        <div class="intro-box">
+                            <h2>Úvod do licencí a autorských práv</h2>
+                            <p>Softwarová licence je právní smlouva určující, kdo může software používat, jak jej používá a na kolika zařízeních. Když používáš software, nevlastníš ho - máš jen udělené oprávnění k užití. Porozumění licencím je zásadní pro IT profesionála.</p>
+                        </div>
+
+                        <div class="subsection-nav">
+                            <button class="subsection-btn active" onclick="showSubsection(event, 'lic-1')">Základy</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-2')">Autorský Zákon</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-3')">Proprietární</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-4')">Modely Licencí</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-5')">Free vs Freeware</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-6')">Open Source</button>
+                            <button class="subsection-btn" onclick="showSubsection(event, 'lic-7')">Ostatní Typu</button>
+                        </div>
+
+                        <!-- Subsection 1: Základy -->
+                        <div id="lic-1" class="subsection-content active">
+                            <h3 class="section-title">Co je softwarová licence?</h3>
+                            <div class="definition-box">
+                                <strong>Softwarová licence</strong> = Právní smlouva určující kdo, jak a kde může software používat.
+                            </div>
+                            <ul class="list-styled">
+                                <li>Kdo může software používat</li>
+                                <li>Za jakým účelem jej může používat</li>
+                                <li>Na kolika zařízeních</li>
+                                <li>Po jakou dobu</li>
+                                <li>Co je porušením práva</li>
+                            </ul>
+
+                            <h3 class="section-title">Zásadní princip</h3>
+                            <div class="definition-box">
+                                Když používáš software, <strong>nevlastníš ho</strong> - máš <strong>udělené oprávnění k užití</strong>.
+                            </div>
+
+                            <p style="color: var(--text-dim); margin-top: 15px; font-size: 0.9em;">Není: "Když mám program stažený, je můj"</p>
+                            <p style="color: var(--green); font-weight: 600;">Je: "Mám licenci, nevlastním jej"</p>
+                        </div>
+
+                        <!-- Subsection 2: Autorský Zákon -->
+                        <div id="lic-2" class="subsection-content">
+                            <h3 class="section-title">Autorský zákon a ochrana software</h3>
+                            <div class="definition-box">
+                                <strong>Software je podle práva:</strong>
+                            </div>
+                            <ul class="list-styled">
+                                <li>Nehmotné dílo</li>
+                                <li>Chráněné autorským zákonem</li>
+                                <li>Srovnatelné s knihou, hudbou nebo filmem</li>
+                            </ul>
+
+                            <p style="color: var(--text-dim); margin-top: 15px; margin-bottom: 12px;">V ČR: <strong>zákon č. 121/2000 Sb. (Autorský zákon)</strong></p>
+
+                            <h3 class="section-title">Vznik autorského práva</h3>
+                            <ul class="list-styled">
+                                <li><strong>Automaticky</strong> - bez registrace</li>
+                                <li><strong>V okamžiku vytvořeni</strong> - kdy je dílo vytvořeno</li>
+                                <li>Nezáleží na kvalitě, rozsahu ani účelu</li>
+                                <li>I školní projekt je autorské dílo!</li>
+                            </ul>
+
+                            <h3 class="section-title">Co je chráněno?</h3>
+                            <ul class="list-styled">
+                                <li>Zdrojový kód (source code)</li>
+                                <li>Spustitelný soubor (.exe)</li>
+                                <li>Struktura a logika programu</li>
+                                <li>Databáze</li>
+                            </ul>
+
+                            <p style="color: var(--text-dim); margin-top: 12px; font-size: 0.9em;">Poznámka: Lidé si myslí, že jen .exe je chráněný - OMYL! I zdrojový kód má právní ochranu!</p>
+                        </div>
+
+                        <!-- Subsection 3: Proprietární -->
+                        <div id="lic-3" class="subsection-content">
+                            <h3 class="section-title">Proprietární software a EULA</h3>
+                            <div class="definition-box">
+                                <strong>Proprietární software:</strong>
+                            </div>
+                            <ul class="list-styled">
+                                <li>Zdrojový kód není dostupný (closed source)</li>
+                                <li>Uživatel má pouze omezené právo k užití</li>
+                                <li>Autor si ponechává plnou kontrolu</li>
+                            </ul>
+
+                            <h3 class="section-title">EULA - End User Licence Agreement</h3>
+                            <div class="definition-box">
+                                <strong>EULA</strong> = Licenční smlouva, kterou musíš přijmout při instalaci.
+                            </div>
+
+                            <p style="color: var(--text-dim); margin-bottom: 12px;">EULA typicky určuje:</p>
+                            <ul class="list-styled">
+                                <li>Povolený způsob použití (osobní / školní / firemní)</li>
+                                <li>Počet instalací nebo zařízení</li>
+                                <li>Zákaz úprav, reverzního inženýrství</li>
+                                <li>Podmínky ukončení licence</li>
+                            </ul>
+
+                            <p style="color: var(--green); margin-top: 15px; font-weight: 600;">Porušení EULA je právní problém, ne jen technický!</p>
+                        </div>
+
+                        <!-- Subsection 4: Modely Licencí -->
+                        <div id="lic-4" class="subsection-content">
+                            <h3 class="section-title">Modely licencování proprietárního software</h3>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>OEM licence</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Vázaná na konkrétní hardware. Typicky se prodává s počítačem. NELZE legálně přenést.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>FPP / Retail licence</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Samostatně zakoupená. Přenositelná mezi zařízeními. Vhodná pro domácí použití.</span>
+                            </div>
+
+                            <div class="definition-box">
+                                <strong>Volume / Multilicence</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Pro školy a firmy. Centrální správa. Organizace nese odpovědnost za legálnost!</span>
+                            </div>
+                        </div>
+
+                        <!-- Subsection 5: Free vs Freeware -->
+                        <div id="lic-5" class="subsection-content">
+                            <h3 class="section-title">Freeware vs Free Software - KRITICKÝ ROZDÍL!</h3>
+
+                            <h3 class="section-title">Freeware</h3>
+                            <ul class="list-styled">
+                                <li>Cena: Zdarma (free beer 🍺)</li>
+                                <li>Zdrojový kód: Uzavřený</li>
+                                <li>Modifikace: Zakázáno</li>
+                                <li>Je proprietární: ✅ Ano</li>
+                            </ul>
+
+                            <h3 class="section-title">Free Software (Svobodný software)</h3>
+                            <ul class="list-styled">
+                                <li>Cena: Zdarma NEBO placeno (free speech 🗣️)</li>
+                                <li>Zdrojový kód: Otevřený</li>
+                                <li>Modifikace: Povoleno</li>
+                                <li>Uživatel má svobody: ✅ Čtyři svobody</li>
+                            </ul>
+
+                            <div class="code-block" style="margin-top: 15px;">
+"Free" v Free Software = Svoboda, ne cena
+"Free" v Freeware = Cena, ne svoboda
+Cena = EKONOMICKÁ vlastnost
+Licence = PRÁVNÍ vlastnost
+                            </div>
+
+                            <h3 class="section-title">Čtyři svobody Free Software</h3>
+                            <ul class="list-styled">
+                                <li><strong>Svoboda 0:</strong> Používat software k jakémukoliv účelu</li>
+                                <li><strong>Svoboda 1:</strong> Studovat, jak program funguje (zdrojový kód)</li>
+                                <li><strong>Svoboda 2:</strong> Šířit kopie (pomoc komunitě)</li>
+                                <li><strong>Svoboda 3:</strong> Upravit software a šířit úpravy</li>
+                            </ul>
+
+                            <p style="color: var(--green); margin-top: 15px; font-weight: 600;">Pokud chybí byť jedna svoboda, nejde o Free Software!</p>
+                        </div>
+
+                        <!-- Subsection 6: Open Source -->
+                        <div id="lic-6" class="subsection-content">
+                            <h3 class="section-title">Svobodný software vs Open Source</h3>
+                            <p style="color: var(--text-dim); margin-bottom: 15px;">Filosoficky zásadně odlišné přístupy, ale prakticky stejný kód!</p>
+
+                            <ul class="list-styled">
+                                <li><strong>Free Software:</strong> Důraz na SVOBODY uživatele (etika)</li>
+                                <li><strong>Open Source:</strong> Důraz na EFEKTIVITU vývoje (pragmatika)</li>
+                            </ul>
+
+                            <h3 class="section-title">Copyleft a "virální efekt"</h3>
+                            <div class="definition-box">
+                                <strong>Copyleft:</strong> Odvozené dílo musí zůstat otevřené. Příklad: GPL
+                            </div>
+
+                            <h3 class="section-title">Permisivní licence (MIT, BSD, Apache)</h3>
+                            <ul class="list-styled">
+                                <li>Kód lze upravit, uzavřít, komerčně využít</li>
+                                <li>Žádný copyleft (žádná "viriálnost")</li>
+                                <li>Minimální omezení</li>
+                                <li>Extrémně populární v komerční sféře</li>
+                            </ul>
+
+                            <h3 class="section-title">Proč firmy používají Open Source?</h3>
+                            <ul class="list-styled">
+                                <li>Snižuje náklady</li>
+                                <li>Zvyšuje bezpečnost (otevřenost kódu)</li>
+                                <li>Urychluje vývoj (komunita)</li>
+                                <li>Zajišťuje nezávislost na dodavateli</li>
+                            </ul>
+
+                            <p style="color: var(--green); margin-top: 12px; font-weight: 600;">Open Source NENÍ amatérský software!</p>
+                            <p style="color: var(--text-dim); font-size: 0.9em;">Linux, Kubernetes, Git, Android, Python = základy globální IT infrastruktury!</p>
+                        </div>
+
+                        <!-- Subsection 7: Ostatní Typy -->
+                        <div id="lic-7" class="subsection-content">
+                            <h3 class="section-title">Další typy licencí a modelů</h3>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Shareware:</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Software lze volně šířit, ale je časově/funkčně omezený. Po vypršení lhůty - odstranit nebo koupit.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Demo / Trial verze:</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Slouží k otestování. Omezený počet dnů nebo funkcí. Marketingový nástroj.</span>
+                            </div>
+
+                            <div class="definition-box" style="margin-bottom: 12px;">
+                                <strong>Adware:</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Software financovaný reklamou. Riziko sledování uživatele a spyware.</span>
+                            </div>
+
+                            <div class="definition-box">
+                                <strong>Abandonware:</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Software opuštěný autorem. Není oficiálně legální, ale bývá tolerován.</span>
+                            </div>
+
+                            <h3 class="section-title">Proč je důležité rozumět licencím?</h3>
+                            <ul class="list-styled">
+                                <li><strong>Ochrana sebe i organizace</strong> - právní odpovědnost</li>
+                                <li><strong>Znak zralého IT odborníka</strong> - rozumění licencím dává výhodu</li>
+                                <li><strong>Součást IT bezpečnosti</strong> - audity, compliance</li>
+                            </ul>
+
+                            <p style="color: var(--green); margin-top: 15px; font-weight: 600;">Kdo rozumí licencím, rozumí skutečné moci v business IT!</p>
+                            <p style="color: var(--text-dim); font-size: 0.9em;">Neznalost licence neomlouvá. Porušení může vést k právnímu stíhání!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUIZ SECTION -->
+            <div id="quiz" class="section-hidden">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🧪</span>
+                        <h1>INTERAKTIVNÍ KVÍZOVÁ LABORATOŘ</h1>
+                    </div>
+
+                    <p style="color: var(--text-dim); margin-bottom: 20px;">Ověřte si znalosti z probraných témat.</p>
+
+                    <div class="quiz-setup">
+                        <div class="quiz-setup-panel">
+                            <h3 style="color: var(--green); margin-bottom: 12px;">📚 VYBERTE TÉMATA</h3>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="topic-internet" checked>
+                                <label for="topic-internet">🌐 Internet</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="topic-network" checked>
+                                <label for="topic-network">🕸️ Sítě</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="topic-licensing" checked>
+                                <label for="topic-licensing">⚖️ Licence</label>
+                            </div>
+                        </div>
+
+                        <div class="quiz-setup-panel">
+                            <h3 style="color: var(--green); margin-bottom: 12px;">Počet otázek: <span id="q-count" style="color: var(--green-dim);">5</span></h3>
+                            <input type="range" id="question-count" min="3" max="20" value="5" 
+                                   oninput="document.getElementById('q-count').textContent = this.value"
+                                   style="width: 100%; accent-color: var(--green);">
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="alert('Kvízový systém bude zakrátko dostupný!')" style="width: 100%; padding: 12px; margin-top: 15px; font-size: 0.9em;">SPUSTIT KVÍZ</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showMain(section) {
+            document.querySelectorAll('[id$="-section"]').forEach(el => el.classList.add('section-hidden'));
+            document.getElementById(section).classList.remove('section-hidden');
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+        }
+
+        function showLesson(topic) {
+            showMain('lessons');
+            document.querySelectorAll('[id$="-section"]').forEach(el => el.classList.add('section-hidden'));
+            document.getElementById(topic + '-section').classList.remove('section-hidden');
+            if (event && event.target) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+        }
+
+        function showSubsection(event, id) {
+            const parent = event.target.closest('[id$="-section"]') || event.target.closest('.panel');
+            const contents = parent.querySelectorAll('.subsection-content');
+            contents.forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = parent.querySelectorAll('.subsection-btn');
+            buttons.forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
