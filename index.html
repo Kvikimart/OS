@@ -446,6 +446,186 @@
             padding: 20px;
         }
 
+        .quiz-view {
+            display: none;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .quiz-view.active {
+            display: block;
+        }
+
+        .quiz-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            color: var(--green);
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            margin-top: 4px;
+            color: var(--text-dim);
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quiz-question {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--green);
+            font-size: 0.8em;
+        }
+
+        .question-text {
+            margin-bottom: 14px;
+            color: var(--text);
+            font-size: 0.95em;
+        }
+
+        .answers-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .answer-option:hover {
+            border-color: var(--green);
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .answer-option input {
+            margin-top: 3px;
+            accent-color: var(--green);
+        }
+
+        .answer-option span {
+            cursor: pointer;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            flex: 1;
+        }
+
+        .quiz-nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-results {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .review-item {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-left: 5px solid var(--green-dark);
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            border-radius: 4px;
+        }
+
+        .review-item.correct {
+            border-left-color: var(--green);
+        }
+
+        .review-item.wrong {
+            border-left-color: #ff4444;
+        }
+
+        .review-question {
+            font-weight: 600;
+            color: var(--green);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .review-answer {
+            margin: 8px 0;
+            padding: 8px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .review-answer.user-answer {
+            border-left: 3px solid var(--text-dim);
+        }
+
+        .review-answer.correct-answer {
+            border-left: 3px solid var(--green);
+            color: var(--green);
+        }
+
+        .review-answer.wrong-answer {
+            border-left: 3px solid #ff4444;
+            color: #ff8888;
+        }
+
+        .review-explanation {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 3px;
+            font-size: 0.95em;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .results-score {
+            color: var(--green);
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .results-message {
+            color: var(--text-dim);
+            margin-bottom: 15px;
+        }
+
         .checkbox-item {
             display: flex;
             align-items: center;
@@ -560,6 +740,18 @@
 
             .quiz-setup-panel {
                 padding: 12px;
+            }
+
+            .quiz-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-nav-buttons {
+                flex-direction: column;
+            }
+
+            .quiz-nav-buttons .btn {
+                width: 100%;
             }
         }
 
@@ -702,12 +894,12 @@
                                 <li>Odolnost - přežije jednotlivé výpadky</li>
                             </ul>
                         </div>
-
+                                           <td>TCP, UDP</td>
                         <!-- Subsection 2: Vlastnictví -->
                         <div id="inet-2" class="subsection-content">
                             <h3 class="section-title">Kdo vlastní Internet?</h3>
                             <div class="definition-box">
-                                <strong>Nikdo</strong> - a právě to je jeho síla. Internet nemá vlastníka, nemá centrální řídicí bod. Řídí se dohodnutými pravidly.
+                                           <td>IP (v4, v6), ICMP, IGMP</td>
                             </div>
 
                             <h3 class="section-title">Organizace řídící Internet</h3>
@@ -774,12 +966,12 @@
                                         </tr>
                                         <tr>
                                             <td><strong>Transportní</strong></td>
-                                            <td>TCP, UDP, ICMP</td>
-                                            <td>Tok dat a kontrola chyb, přenosová nadежnost</td>
+                                            <td>TCP, UDP</td>
+                                            <td>Tok dat a kontrola chyb, přenosová spolehlivost</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Internetová</strong></td>
-                                            <td>IP (v4, v6), IGMP</td>
+                                            <td>IP (v4, v6), IGMP, ICMP</td>
                                             <td>Adresování a směrování mezi sítěmi</td>
                                         </tr>
                                         <tr>
@@ -1016,7 +1208,7 @@
                         <div id="net-2" class="subsection-content">
                             <h3 class="section-title">NAT - Network Address Translation</h3>
                             <div class="definition-box">
-                                <strong>NAT</strong> = Překladá privátní IP adresy na veřejné IP. Kritické pro šetření IPv4 adres.
+                                  <strong>NAT</strong> = Překládá privátní IP adresy ↔ veřejné IP obousměrně. Kritické pro šetření IPv4 adres.
                             </div>
 
                             <h3 class="section-title">Jak NAT funguje</h3>
@@ -1079,7 +1271,7 @@
                                         </tr>
                                         <tr>
                                             <td><strong>AP</strong></td>
-                                            <td>L1-L2</td>
+                                               <td>L2</td>
                                             <td>Wi-Fi vysílač (bezdrátový switch)</td>
                                         </tr>
                                     </tbody>
@@ -1150,11 +1342,11 @@
 
                             <h3 class="section-title">Proces přidělení (DHCP Lease)</h3>
                             <ol style="margin-left: 18px; color: var(--text-dim); font-size: 0.9em;">
-                                <li>Zařízení vyšle DHCP žádost</li>
-                                <li>DHCP server nabídne IP adresu</li>
-                                <li>Zařízení nabídku přijme (ACK)</li>
-                                <li>Server ji dočasně přidělí na dobu platnosti (lease time)</li>
-                                <li>Po vypršení - prodloužení nebo nová IP</li>
+                                  <li><strong>Discover:</strong> Zařízení vyšle DHCP žádost (broadcast)</li>
+                                  <li><strong>Offer:</strong> DHCP server nabídne IP adresu</li>
+                                  <li><strong>Request:</strong> Zařízení explicitně potvrdí výběr serveru</li>
+                                  <li><strong>Acknowledge:</strong> Server IP adresu potvrdí a přidělí na dobu platnosti (lease time)</li>
+                                  <li>Po vypršení - prodloužení nebo nová IP</li>
                             </ol>
 
                             <h3 class="section-title">Výhody DHCP</h3>
@@ -1200,6 +1392,12 @@
                                 <li>Fyzická nebo bezdrátová cesta ven (kabel, Wi-Fi)</li>
                             </ul>
 
+                            <h3 class="section-title">"Poslední kilometr"</h3>
+                            <div class="definition-box">
+                                <strong>Poslední kilometr</strong> = Přístupová část sítě mezi poskytovatelem a uživatelem. Právě tady vzniká nejvíc problémů s připojením.
+                            </div>
+                            <p style="color: var(--green); margin-top: 12px; font-weight: 600;">⚠️ 90% problémů je na posledním kilometru.</p>
+
                             <h3 class="section-title">Základní technologie připojení</h3>
                             <ul class="list-styled">
                                 <li><strong>DSL</strong> - přes telefonní linku, pomalejší</li>
@@ -1213,18 +1411,24 @@
                             <ul class="list-styled">
                                 <li><strong>Download/Upload</strong> - šířka pásma (Mbps)</li>
                                 <li><strong>Latence</strong> - čas odpovědi (ms), kritické pro hry</li>
-                                <li><strong>Jitter</strong> - kolísání latence, problém pro video hovory</li>
-                                <li><strong>Ztratovost packetů</strong> - procento ztracených dat (ideálně 0%)</li>
+                                <li><strong>Jitter</strong> - kolísání odezvy; problém pro video hovory, VoIP a hry</li>
+                                <li><strong>Ztratovost packetů</strong> - procento ztracených dat; ideálně 0%</li>
                             </ul>
 
                             <h3 class="section-title">Agregace</h3>
-                            <p style="color: var(--text-dim); margin-bottom: 12px;">= Kolik uživatelů sdílí jednu linku (1:10, 1:50)</p>
+                            <div class="definition-box">
+                                <strong>Agregace</strong> = Kolik uživatelů sdílí jednu linku. Typické poměry jsou 1:10 nebo 1:50.
+                            </div>
                             <ul class="list-styled">
-                                <li>Větší agregace = levnější, ale méně stabilní</li>
-                                <li>Ve špičce se rychlost dělí mezi uživatele</li>
+                                <li>Větší agregace = levnější, ale méně stabilní služby</li>
+                                <li>Ve špičce se rychlost dělí mezi více uživatelů</li>
+                                <li>Jde o sdílení jedné kapacity, ne o garantovanou rychlost pro každého</li>
                             </ul>
 
-                            <p style="color: var(--green); margin-top: 12px; font-weight: 600;">⚠️ "Mám 1 Gb/s, takže mi hry nemohou lagovat" - CHYBA! Latence je důležitější!</p>
+                            <div class="definition-box">
+                                <strong>Latence není totéž co rychlost.</strong> Mýtus "Mám 1 Gb/s, takže mi hry nemohou lagovat" je špatně, protože hry často trápí odezva, jitter a ztráta paketů, ne jen šířka pásma.
+                            </div>
+                            <p style="color: var(--green); margin-top: 12px; font-weight: 600;">⚠️ "Mám 1 Gb/s, takže mi hry nemohou lagovat" - CHYBA! Latence, jitter a packet loss jsou často důležitější.</p>
                         </div>
                     </div>
                 </div>
@@ -1453,6 +1657,23 @@ Licence = PRÁVNÍ vlastnost
                                 <span style="color: var(--text-dim); font-size: 0.9em;">Software opuštěný autorem. Není oficiálně legální, ale bývá tolerován.</span>
                             </div>
 
+                            <div class="definition-box" style="margin-top: 12px;">
+                                <strong>Cardware:</strong><br>
+                                <span style="color: var(--text-dim); font-size: 0.9em;">Autor žádá symbolickou protihodnotu, například pohlednici. Dnes spíše historický model.</span>
+                            </div>
+
+                            <h3 class="section-title">Etika vs. právo</h3>
+                            <div class="definition-box">
+                                <strong>Etika a právo nejsou totéž.</strong> Ne vše, co lidé považují za "OK", je automaticky legální. U softwaru rozhodují licenční podmínky a autorský zákon.
+                            </div>
+
+                            <h3 class="section-title">I malý program je autorské dílo</h3>
+                            <ul class="list-styled">
+                                <li>I malý skript nebo studentský projekt je autorským dílem</li>
+                                <li>Nezáleží na velikosti ani na tom, že jde o školní práci</li>
+                                <li>Neoprávněné kopírování nebo úpravy jsou porušením práva</li>
+                            </ul>
+
                             <h3 class="section-title">Proč je důležité rozumět licencím?</h3>
                             <ul class="list-styled">
                                 <li><strong>Ochrana sebe i organizace</strong> - právní odpovědnost</li>
@@ -1462,6 +1683,12 @@ Licence = PRÁVNÍ vlastnost
 
                             <p style="color: var(--green); margin-top: 15px; font-weight: 600;">Kdo rozumí licencím, rozumí skutečné moci v business IT!</p>
                             <p style="color: var(--text-dim); font-size: 0.9em;">Neznalost licence neomlouvá. Porušení může vést k právnímu stíhání!</p>
+
+                            <div class="code-block" style="margin-top: 15px;">
+ZÁVĚR:
+Licence nejsou byrokracie.
+Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodování v IT.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1502,13 +1729,909 @@ Licence = PRÁVNÍ vlastnost
                         </div>
                     </div>
 
-                    <button class="btn" onclick="alert('Kvízový systém bude zakrátko dostupný!')" style="width: 100%; padding: 12px; margin-top: 15px; font-size: 0.9em;">SPUSTIT KVÍZ</button>
+                    <button class="btn" onclick="startQuiz()" style="width: 100%; padding: 12px; margin-top: 15px; font-size: 0.9em;">SPUSTIT KVÍZ</button>
+
+                    <div id="quiz-play" class="quiz-view">
+                        <div class="quiz-stats">
+                            <div class="stat-box">
+                                <div class="stat-number" id="quiz-current">1</div>
+                                <div class="stat-label">Otázka</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="quiz-total">0</div>
+                                <div class="stat-label">Celkem</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="quiz-progress">0%</div>
+                                <div class="stat-label">Pokrok</div>
+                            </div>
+                        </div>
+
+                        <div id="quiz-question-container"></div>
+
+                        <div class="quiz-nav-buttons">
+                            <button class="btn" onclick="previousQuestion()">PŘEDCHOZÍ</button>
+                            <button class="btn" onclick="nextQuestion()">DALŠÍ</button>
+                            <button class="btn" onclick="submitQuiz()">ODESLAT</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-result" class="quiz-view">
+                        <div class="quiz-results">
+                            <h2 style="color: var(--green);">KVÍZ DOKONČEN</h2>
+                            <div class="results-score" id="results-score">0%</div>
+                            <p class="results-message" id="results-message"></p>
+                            <p style="color: var(--text-dim);">Správně: <span id="results-correct">0</span> | Chybně: <span id="results-wrong">0</span></p>
+                            <button class="btn" onclick="showReview()" style="margin-top: 16px;">PŘEZKOUMAT ODPOVĚDI</button>
+                            <button class="btn" onclick="resetQuiz()" style="margin-top: 8px;">ZKUSIT ZNOVU</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-review" class="quiz-view">
+                        <div style="padding: 20px;">
+                            <h2 style="color: var(--green); margin-bottom: 20px;">PŘEHLED ODPOVĚDÍ</h2>
+                            <div id="review-container"></div>
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                <button class="btn" onclick="previousReview()">← ZPĚT</button>
+                                <span id="review-counter" style="color: var(--text-dim); padding: 10px;"></span>
+                                <button class="btn" onclick="nextReview()">VPŘED →</button>
+                            </div>
+                            <button class="btn" onclick="closeReview()" style="margin-top: 16px; width: 100%;">ZAVŘÍT</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
+        const quizData = {
+            internet: [
+                {
+                    question: 'Co je Internet?',
+                    answers: [
+                        'Jedna centrálně řízená síť',
+                        'Globální systém propojených sítí',
+                        'Pouze Wi-Fi připojení',
+                        'Jen síť poskytovatele'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co znamená ISP?',
+                    answers: [
+                        'Interní síťový protokol',
+                        'Internet Service Provider',
+                        'Internet Security Package',
+                        'Interconnected System Portal'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co DNS dělá?',
+                    answers: [
+                        'Šifruje data',
+                        'Překládá jména na IP adresy',
+                        'Přiděluje kabely',
+                        'Blokuje reklamy'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je agregace?',
+                    answers: [
+                        'Sdílení jedné linky více uživateli',
+                        'Zrychlení monitoru',
+                        'Typ routeru',
+                        'Šifrování paketů'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Který problém je často důležitější než rychlost?',
+                    answers: [
+                        'Počet ikon na ploše',
+                        'Latence, jitter a packet loss',
+                        'Barva routeru',
+                        'Velikost monitoru'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je latence?',
+                    answers: [
+                        'Počet paketů za sekundu',
+                        'Zpoždění při přenosu dat',
+                        'Velikost dat paketu',
+                        'Počet sítí na Internetu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co znamená jitter?',
+                    answers: [
+                        'Ztráta dat v síti',
+                        'Kolísání latence',
+                        'Typ routeru',
+                        'Šifrování připojení'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je packet loss?',
+                    answers: [
+                        'Snížení rychlosti',
+                        'Ztráta dat paketů během přenosu',
+                        'Typ kabelu',
+                        'Aktualizace softwaru'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Kdo vlastní Internet?',
+                    answers: [
+                        'Jedna globální společnost',
+                        'Nikdo - je to decentralizovaná síť',
+                        'Vláda USA',
+                        'Technologické firmy jako Google'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jak Internet zajišťuje redundanci?',
+                    answers: [
+                        'Jedinou hlavní linkou',
+                        'Více datovými cesty mezi sítěmi',
+                        'Duplikací serveru',
+                        'Jen Wi-Fi sítěmi'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je IP adresa?',
+                    answers: [
+                        'Jméno domény',
+                        'Číslo pro identifikaci zařízení v síti',
+                        'Heslo k internetu',
+                        'Typ kabelu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaké jsou dvě hlavní verze IP?',
+                    answers: [
+                        'IP Fast a IP Slow',
+                        'IPv4 a IPv6',
+                        'IPv1 a IPv2',
+                        'IP Light a IP Heavy'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Kolik bitů má IPv4 adresa?',
+                    answers: ['8 bitů', '16 bitů', '32 bitů', '64 bitů'],
+                    correct: 2
+                },
+                {
+                    question: 'Co je TCP?',
+                    answers: [
+                        'Transportní protokol se zabezpečením připojení',
+                        'Typ sítě',
+                        'Zastaralá IP adresa',
+                        'Součást DNS'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Co je UDP?',
+                    answers: [
+                        'Zabezpečovaný přenos dat',
+                        'Rychlý přenos bez kontroly spojení',
+                        'Typ DNS serveru',
+                        'Šifrování internetu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je datový paket?',
+                    answers: [
+                        'Příslušenství k počítači',
+                        'Jednotka dat posílaná přes síť',
+                        'Typ kabelu',
+                        'Správce domény'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Kolik vrstev má TCP/IP model?',
+                    answers: ['3 vrstvy', '4 vrstvy', '5 vrstev', '7 vrstev'],
+                    correct: 1
+                },
+                {
+                    question: 'Jaké jsou čtyři vrstvy TCP/IP?',
+                    answers: [
+                        'Fyzická, Data Link, Síť, Aplikace',
+                        'Aplikace, Transport, Internet, Link',
+                        'IP, DNS, HTTP, FTP',
+                        'Server, Klient, Střed, Okraj'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je ICMP?',
+                    answers: [
+                        'Protokol pro správu datových toků',
+                        'Protokol pro hlášení chyb a diagnostiku',
+                        'Typ Web serveru',
+                        'Forma šifrování'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co dělá příkaz ping?',
+                    answers: [
+                        'Testuje dostupnost síťového zařízení',
+                        'Změří rychlost internetu',
+                        'Připojí se k serveru',
+                        'Zablokuje síť'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Co je webový server?',
+                    answers: [
+                        'Počítač uživatele',
+                        'Počítač, který poskytuje webové stránky',
+                        'Typ routeru',
+                        'Program k otevírání emailů'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je HTTP?',
+                    answers: [
+                        'Systém šifrování',
+                        'Protokol pro přenos webových stránek',
+                        'Typ interní sítě',
+                        'Program pro email'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je HTTPS?',
+                    answers: [
+                        'Původní verze HTTP',
+                        'HTTP se šifrováním',
+                        'Pouze pro správce',
+                        'Typ DNS'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je FTP?',
+                    answers: [
+                        'Protokol pro přenos souborů',
+                        'Typ virtuální sítě',
+                        'Forma hesla',
+                        'Součást emailu'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Co je SMTP?',
+                    answers: [
+                        'Protokol pro odesílání emailů',
+                        'Typ sítě ISP',
+                        'Forma autentifikace',
+                        'Režim routeru'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Jaký je rozdíl mezi TCP a UDP?',
+                    answers: [
+                        'TCP je starší, UDP je novější',
+                        'TCP je spolehlivý ale pomalejší, UDP je rychlý ale bez jistoty',
+                        'UDP se používá jen pro email',
+                        'Nejsou žádné rozdíly'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi IPv4 a IPv6?',
+                    answers: [
+                        'Žádný, je to stejný protokol',
+                        'IPv4 má 32 bitů, IPv6 má 128 bitů s mnohem více adres',
+                        'IPv6 je jen pro Evropu',
+                        'IPv4 je bezpečnější'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi HTTP a HTTPS?',
+                    answers: [
+                        'HTTPS je jen starší verze',
+                        'HTTP přenáší bez šifrování, HTTPS šifruje data',
+                        'HTTP je bezpečnější',
+                        'Nejsou žádné rozdíly'
+                    ],
+                    correct: 1
+                }
+            ],
+            network: [
+                {
+                    question: 'Co NAT dělá?',
+                    answers: [
+                        'Překládá privátní IP na veřejnou IP',
+                        'Vytváří nové kabely',
+                        'Šifruje DNS',
+                        'Mění MAC adresy na porty'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Která topologie je dnes v LAN nejběžnější?',
+                    answers: ['BUS', 'RING', 'STAR', 'LINE'],
+                    correct: 2
+                },
+                {
+                    question: 'Co DHCP přiděluje?',
+                    answers: [
+                        'IP adresu, masku, bránu a DNS',
+                        'Jen heslo k Wi-Fi',
+                        'Pouze MAC adresu',
+                        'Pouze veřejnou IP'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Co je router?',
+                    answers: [
+                        'Kabel k počítači',
+                        'Zařízení propojující sítě a dirigující data',
+                        'Typ kabelu',
+                        'Název serveru'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je switch?',
+                    answers: [
+                        'Zapínač v počítači',
+                        'Zařízení propojující zařízení v jedné síti',
+                        'Typ kabelu',
+                        'Protokol internetu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je hub?',
+                    answers: [
+                        'Centrální uzel sítě',
+                        'Zastaralé zařízení pro připojení kabelů',
+                        'Součást procesoru',
+                        'Typ DNS serveru'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je WiFi/Access Point?',
+                    answers: [
+                        'Druh kabelu',
+                        'Zařízení pro bezdrátové připojení k síti',
+                        'Typ routeru',
+                        'Protokol pro stahování'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je MAC adresa?',
+                    answers: [
+                        'Číslo zařízení v lokální síti',
+                        'Číslo v globálním internetu',
+                        'Heslo k Wi-Fi',
+                        'Typ kabeláže'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Co je IP adresace?',
+                    answers: [
+                        'Přidělování jmen serverům',
+                        'Přidělování číselných identifikátorů v síti',
+                        'Typ kabeláže',
+                        'Název poskytovatele'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je síťová maska?',
+                    answers: [
+                        'FiltR dat',
+                        'Určuje část IP adresy pro síť a hostitele',
+                        'Typ hesla',
+                        'Součást Wi-Fi'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaká je standardní síťová maska pro třídu C?',
+                    answers: [
+                        '255.0.0.0',
+                        '255.255.0.0',
+                        '255.255.255.0',
+                        '255.255.255.255'
+                    ],
+                    correct: 2
+                },
+                {
+                    question: 'Co je default gateway?',
+                    answers: [
+                        'První IP v síti',
+                        'Zařízení pro připojení do jiných sítí',
+                        'Typ firewallu',
+                        'DNS server'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je LAN?',
+                    answers: [
+                        'Globální síť',
+                        'Lokální síť v jedné budově/místě',
+                        'Typ internetu',
+                        'Bezdrátový protokol'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je WAN?',
+                    answers: [
+                        'Síť v jedné místnosti',
+                        'Síť v městě',
+                        'Rozlehlá síť na velké vzdálenosti',
+                        'Jen Wi-Fi sítě'
+                    ],
+                    correct: 2
+                },
+                {
+                    question: 'Co je MAN?',
+                    answers: [
+                        'Malá domácí síť',
+                        'Metropolitní síť v jednom městě',
+                        'Součást internetu',
+                        'Typ hesla'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je PAN?',
+                    answers: [
+                        'Velká korporátní síť',
+                        'Personální síť mezi blízkými zařízeními',
+                        'Veřejný přístupový bod',
+                        'Protokol internetu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je Ethernet?',
+                    answers: [
+                        'Typ internetu',
+                        'Druh kabeláže pro LAN',
+                        'Bezdrátový protokol',
+                        'Typ hesla k internetu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je topologie BUS?',
+                    answers: [
+                        'Kruh propojení',
+                        'Všechna zařízení na jedné lince',
+                        'Každé s každým',
+                        'Hvězda kolem centra'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je topologie RING?',
+                    answers: [
+                        'Linie propojení',
+                        'Kruh - data putují po kruhu',
+                        'Hvězda',
+                        'Náhodné propojení'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je topologie MESH?',
+                    answers: [
+                        'Jednoduchá linie',
+                        'Mnoho redundantních cest',
+                        'Pouze kruh',
+                        'Hvězda s jedním centrem'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je topologie TREE?',
+                    answers: [
+                        'Všechna zařízení v jedné linii',
+                        'Hierarchické větvení jako strom',
+                        'Bez žádné struktury',
+                        'Kruhová propojení'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je topologie LINE?',
+                    answers: [
+                        'Soustředná kola',
+                        'Jednoduchá linie s koncovými zařízeními',
+                        'Bezdrátové spojení',
+                        'Více středů'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaká je maximální velikost třídy A sítě?',
+                    answers: [
+                        'Do 254 hostů',
+                        'Do 65534 hostů',
+                        'Miliony hostů',
+                        'Jen 10 hostů'
+                    ],
+                    correct: 2
+                },
+                {
+                    question: 'Jaká je maximální velikost třídy C sítě?',
+                    answers: [
+                        'Miliony',
+                        'Do 65534',
+                        'Do 254 hostů',
+                        'Do 1000'
+                    ],
+                    correct: 2
+                },
+                {
+                    question: 'Co je IPv4?',
+                    answers: [
+                        'Nová forma internetu',
+                        '32-bitová IP adresa',
+                        'Typ DNS',
+                        'Bezdrátový protokol'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi switch a router?',
+                    answers: [
+                        'Je to stejné zařízení',
+                        'Switch propojuje zařízení v jedné síti, router propojuje různé sítě',
+                        'Router je starší',
+                        'Switch je jen bezdrátový'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi LAN a WAN?',
+                    answers: [
+                        'Nejsou žádné rozdíly',
+                        'LAN je místní síť, WAN je rozlehlá síť na velké vzdálenosti',
+                        'LAN je jen kabelová',
+                        'WAN je jen pro mobilní telefony'
+                    ],
+                    correct: 1
+                }
+            ],
+            licensing: [
+                {
+                    question: 'Co je Freeware?',
+                    answers: [
+                        'Zdarma software s otevřeným kódem',
+                        'Zdarma software, ale obvykle proprietární',
+                        'Jen software pro firmy',
+                        'Licence bez právní ochrany'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je Cardware?',
+                    answers: [
+                        'Software za pohlednici nebo symbolickou protihodnotu',
+                        'Karta do počítače',
+                        'Licence pro karty SIM',
+                        'Typ malwaru'
+                    ],
+                    correct: 0
+                },
+                {
+                    question: 'Kdy vzniká autorské právo k programu?',
+                    answers: [
+                        'Až po registraci',
+                        'Automaticky při vytvoření díla',
+                        'Až po prodeji',
+                        'Až po zveřejnění na webu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je abandonware?',
+                    answers: [
+                        'Legálně volný software',
+                        'Software opuštěný autorem, tolerovaný ale ne nutně legální',
+                        'Software pro Android',
+                        'Open source hra'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je proprietární software?',
+                    answers: [
+                        'Vždy bezplatný',
+                        'Software s uzavřeným kódem vlastněný společností',
+                        'Jen pro vládu',
+                        'Software bez licence'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je open source software?',
+                    answers: [
+                        'Software, který nemá autora',
+                        'Software s veřejně dostupným zdrojovým kódem',
+                        'Pouze pro domácí použití',
+                        'Bez jakékoli licence'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je GPL?',
+                    answers: [
+                        'Typ proprietárního softwaru',
+                        'Licence která vyžaduje sdílení vylepšení',
+                        'Bezplatná licence bez povinností',
+                        'Jen pro komerční software'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je MIT licence?',
+                    answers: [
+                        'Jen pro universitu MIT',
+                        'Velmi permisivní licence s minimálními omezeními',
+                        'Copyleft licence',
+                        'Licence jen pro web'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je BSD licence?',
+                    answers: [
+                        'Proprietární Software licence',
+                        'Permisivní licence z Kalifornské university',
+                        'Jen pro operační systémy',
+                        'Stará a nepoužívená licence'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je Apache licence?',
+                    answers: [
+                        'Jen pro web servery',
+                        'Permisivní licence s patentovou ochranou',
+                        'Copyleft licence',
+                        'Licence bez otevřeného kódu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi free software a freeware?',
+                    answers: [
+                        'Žádný rozdíl',
+                        'Free má zdarma kód, freeware je zdarma program',
+                        'Free je len proprietární',
+                        'Freeware je Open Source'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je shareware?',
+                    answers: [
+                        'Vždy zcela bezplatný',
+                        'Software k vyzkoušení, později se platí',
+                        'Typ open source',
+                        'Jen pro korporace'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je EULA?',
+                    answers: [
+                        'Typ open source licence',
+                        'Licenční smlouva mezi uživatelem a vydavatelem',
+                        'Bezplatná licence',
+                        'Název softwaru'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je copyleft?',
+                    answers: [
+                        'Právo na kopírování',
+                        'Povinnost sdílet zdrojový kód pod stejnou licencí',
+                        'Zákaz kopírování',
+                        'Typ hesla'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je copyright?',
+                    answers: [
+                        'Povolení pro kopírování',
+                        'Právní ochrana autorských práv',
+                        'Jen pro hudbu',
+                        'Typ licence bez ochrany'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jak dlouho trvá autorská práva podle zákona?',
+                    answers: [
+                        '5 let',
+                        '10 let',
+                        'Tipicky život autora + 70 let',
+                        'Jen do prodeje'
+                    ],
+                    correct: 2
+                },
+                {
+                    question: 'Co je software bez licence?',
+                    answers: [
+                        'Vždy legální',
+                        'Obvykle nelegální,vlastněno autorem',
+                        'Jen pro testování',
+                        'Bezplatně pro všechny'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi ethikou a zákonem v software?',
+                    answers: [
+                        'Žádný',
+                        'Etika je osobní, zákon je vynucovatelný',
+                        'Etika je jen pro ISP',
+                        'Zákon neexistuje'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je pirátství softwaru?',
+                    answers: [
+                        'Nákup levného softwaru',
+                        'Neoprávněné kopírování a použití licencovaného softwaru',
+                        'Instalace na více počítačů když je legální',
+                        'Typ freeware'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je software v public domain?',
+                    answers: [
+                        'Software proprietární',
+                        'Software bez autorské ochrany, volný pro všechny',
+                        'Jen pro vládu',
+                        'Starší proprietární software'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je Creative Commons?',
+                    answers: [
+                        'Typ proprietárního softwaru',
+                        'Kolekce licencí pro pružnější sdílení děl',
+                        'Jen pro hudbu',
+                        'Bezplatná licence bez omezeníc'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaké jsou čtyři svobody Free Software?',
+                    answers: [
+                        'Kódování, Testování, Prodej, Distribuce',
+                        'Používat, Studovat, Modifikovat, Distribuovat',
+                        'Čtení, Zápis, Spuštění, Smazání',
+                        'Jen Používat, Koupit, Upgradovat, Podpora'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Co je software jako služba (SaaS)?',
+                    answers: [
+                        'Instalace na vlastní počítač',
+                        'Software přístupný online bez instalace',
+                        'Jen pro malé firmy',
+                        'Typ shareware'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi volným a bezplatným softwarem?',
+                    answers: [
+                        'Žádný',
+                        'Volný znamená svobodu, bezplatný znamená cenu',
+                        'Volný je jen pro web',
+                        'Bezplatný je starší termín'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi copyright a copyleft?',
+                    answers: [
+                        'Je to totéž',
+                        'Copyright chrání originální dílo, copyleft vyžaduje sdílení pod stejnou licencí',
+                        'Copyleft je starší',
+                        'Copyright je jen pro hudbu'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi open source a free software?',
+                    answers: [
+                        'Nejsou žádné rozdíly',
+                        'Open source znamená viditelný kód, free software znamená svobodu. Mohou být i obojí.',
+                        'Free software je jen zdarma',
+                        'Open source je jen proprietární'
+                    ],
+                    correct: 1
+                },
+                {
+                    question: 'Jaký je rozdíl mezi GPL a MIT licencí?',
+                    answers: [
+                        'Žádný rozdíl',
+                        'GPL vyžaduje sdílení, MIT je více liberální',
+                        'MIT je bezpečnější',
+                        'GPL je zdarma, MIT je placená'
+                    ],
+                    correct: 1
+                }
+            ]
+        };
+
+        // Explanations for quiz questions
+        const explanations = {
+            'Co je Internet?': 'Internet je globální síť sítí propojených dohromady. Není vlastněn jednou společností, ale je decentralizovaný systém.',
+            'Co znamená ISP?': 'ISP (Internet Service Provider) je společnost, která poskytuje připojení k internetu domácnostem a podnikům.',
+            'Co DNS dělá?': 'DNS (Domain Name System) překládá jména domén jako google.com na číselné IP adresy, které počítače používají.',
+            'Co je agregace?': 'Agregace znamená sdílení jedné datové linky více uživateli, což snižuje náklady poskytovatele.',
+            'Který problém je často důležitější než rychlost?': 'Latence, jitter a packet loss jsou často důležitější než čistá rychlost. Nízká latence je kritická pro hry a videa.',
+            'Co je latence?': 'Latence je zpoždění - jak dlouho trvá, než se data dostanou ze zdroje do cíle. Měří se v milisekundách (ms).',
+            'Co znamená jitter?': 'Jitter je kolísání latence - když se časy dotyků mění. Způsobuje škubavou přehrávku videa a problémy v hrách.',
+            'Co je packet loss?': 'Packet loss znamená, že některé datové pakety se během přenosu ztratí. Způsobuje problémy se kvalitou komunikace.',
+            'Co je TCP?': 'TCP (Transmission Control Protocol) je protokol, který zajišťuje, že všechna data dorazí správně a v pořadí.',
+            'Co je UDP?': 'UDP (User Datagram Protocol) je rychlejší protokol bez záruky doručení - používá se pro video a hraní her.',
+            'Co je proprietární software?': 'Proprietární software má uzavřený zdrojový kód, kterým vlastní společnost. Uživatelé nemohou kód vidět nebo modifikovat.',
+            'Co je open source software?': 'Open source software má veřejně dostupný zdrojový kód. Kdokoli může jej modifikovat a sdílet.',
+            'Co je GPL?': 'GPL je licence, která říká: pokud software modifikuješ, musíš jej zdrojový kód také zveřejnit pod GPL.',
+            'Co je MIT licence?': 'MIT licence je velmi liberální - můžeš software upravit, prodávat i uzavřít bez povinnosti sdílet kód.',
+            'Jaký je rozdíl mezi ethikou a zákonem v software?': 'Etika je osobní morální rozhodování (měl bych to dělat?), zatímco zákon je vynucovatelný (smím to dělat?).',
+            'Co je IPv4 vs IPv6?': 'IPv4 má 32 bitů (4 miliardy adres), IPv6 má 128 bitů (prakticky nekonečně adres pro budoucí růst internetu.',
+            'Co je TCP vs UDP?': 'TCP je spolehlivý ale pomalejší (email, web), UDP je rychlý ale nespolehlivý (video, hry, telefonování).',
+            'Co je LAN vs WAN?': 'LAN je místní síť (doma, v kancelářích), WAN je rozlehlá síť přes velké vzdálenosti (internet).',
+            'Co je switch vs router?': 'Switch propojuje zařízení v jedné síti, router propojuje různé sítě a řídí provoz mezi nimi.',
+            'Co je HTTP vs HTTPS?': 'HTTP přenáší data bez šifrování, HTTPS přenáší data šifrovaně. HTTPS je bezpečnější.',
+            'Co je open source vs free software?': 'Open source znamená dostupný kód, free software znamená svobodu.',
+            'Co je copyright vs copyleft?': 'Copyright chrání původní dílo před kopírováním, copyleft vyžaduje sdílení pod stejnou licencí.'
+        };
+
+        const quizState = {
+            questions: [],
+            answers: [],
+            currentIndex: 0,
+            reviewIndex: 0
+        };
+
         function showMain(section) {
             document.querySelectorAll('[id$="-section"]').forEach(el => el.classList.add('section-hidden'));
             document.getElementById(section).classList.remove('section-hidden');
@@ -1535,6 +2658,151 @@ Licence = PRÁVNÍ vlastnost
             const buttons = parent.querySelectorAll('.subsection-btn');
             buttons.forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
+        }
+
+        function startQuiz() {
+            const selectedTopics = [];
+            if (document.getElementById('topic-internet').checked) selectedTopics.push('internet');
+            if (document.getElementById('topic-network').checked) selectedTopics.push('network');
+            if (document.getElementById('topic-licensing').checked) selectedTopics.push('licensing');
+
+            if (selectedTopics.length === 0) {
+                alert('Vyberte alespoň jedno téma.');
+                return;
+            }
+
+            const questionCount = parseInt(document.getElementById('question-count').value, 10);
+            const pool = selectedTopics.flatMap(topic => quizData[topic]);
+            quizState.questions = pool.sort(() => Math.random() - 0.5).slice(0, Math.min(questionCount, pool.length));
+            quizState.answers = new Array(quizState.questions.length).fill(null);
+            quizState.currentIndex = 0;
+
+            document.getElementById('quiz-play').classList.add('active');
+            document.getElementById('quiz-result').classList.remove('active');
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const question = quizState.questions[quizState.currentIndex];
+            const container = document.getElementById('quiz-question-container');
+            document.getElementById('quiz-current').textContent = quizState.currentIndex + 1;
+            document.getElementById('quiz-total').textContent = quizState.questions.length;
+            document.getElementById('quiz-progress').textContent = Math.round((quizState.currentIndex / quizState.questions.length) * 100) + '%';
+
+            container.innerHTML = `
+                <div class="quiz-question">
+                    <div class="question-header">
+                        <span>Otázka ${quizState.currentIndex + 1} z ${quizState.questions.length}</span>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="answers-group">
+                        ${question.answers.map((answer, index) => `
+                            <label class="answer-option" for="answer-${quizState.currentIndex}-${index}">
+                                <input type="radio" name="quiz-answer" id="answer-${quizState.currentIndex}-${index}" value="${index}" ${quizState.answers[quizState.currentIndex] === index ? 'checked' : ''} onchange="quizState.answers[quizState.currentIndex] = ${index}">
+                                <span>${answer}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function nextQuestion() {
+            if (quizState.currentIndex < quizState.questions.length - 1) {
+                quizState.currentIndex += 1;
+                renderQuizQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (quizState.currentIndex > 0) {
+                quizState.currentIndex -= 1;
+                renderQuizQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            const correct = quizState.questions.reduce((count, question, index) => {
+                return count + (quizState.answers[index] === question.correct ? 1 : 0);
+            }, 0);
+            const total = quizState.questions.length || 1;
+            const percent = Math.round((correct / total) * 100);
+
+            let message = 'Pokračuj v učení.';
+            if (percent >= 90) message = 'Výborně. Máš to pod kontrolou.';
+            else if (percent >= 70) message = 'Dobré výsledky, ještě trochu procvičit.';
+            else if (percent >= 50) message = 'Solidní začátek, chce to opakování.';
+
+            document.getElementById('results-score').textContent = percent + '%';
+            document.getElementById('results-message').textContent = message;
+            document.getElementById('results-correct').textContent = correct;
+            document.getElementById('results-wrong').textContent = total - correct;
+
+            document.getElementById('quiz-play').classList.remove('active');
+            document.getElementById('quiz-result').classList.add('active');
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-result').classList.remove('active');
+            document.getElementById('quiz-play').classList.add('active');
+            quizState.currentIndex = 0;
+            renderQuizQuestion();
+        }
+
+        function showReview() {
+            quizState.reviewIndex = 0;
+            document.getElementById('quiz-result').classList.remove('active');
+            document.getElementById('quiz-review').classList.add('active');
+            renderReviewItem();
+        }
+
+        function renderReviewItem() {
+            const question = quizState.questions[quizState.reviewIndex];
+            const userAnswerIndex = quizState.answers[quizState.reviewIndex];
+            const isCorrect = userAnswerIndex === question.correct;
+            
+            const reviewHTML = `
+                <div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
+                    <div class="review-question">Otázka ${quizState.reviewIndex + 1}: ${question.question}</div>
+                    
+                    <div style="margin-top: 12px;">
+                        <div class="review-answer user-answer">
+                            <strong>Tvoje odpověď:</strong> ${question.answers[userAnswerIndex] || 'Bez odpovědi'}
+                            ${isCorrect ? ' ✓' : ' ✗'}
+                        </div>
+                        ${!isCorrect ? `<div class="review-answer correct-answer">
+                            <strong>Správná odpověď:</strong> ${question.answers[question.correct]}
+                        </div>` : ''}
+                    </div>
+
+                    ${explanations[question.question] ? `<div class="review-explanation">
+                        <strong>Vysvětlení:</strong> ${explanations[question.question]}
+                    </div>` : ''}
+                </div>
+            `;
+
+            document.getElementById('review-container').innerHTML = reviewHTML;
+            document.getElementById('review-counter').textContent = 
+                `${quizState.reviewIndex + 1} z ${quizState.questions.length}`;
+        }
+
+        function nextReview() {
+            if (quizState.reviewIndex < quizState.questions.length - 1) {
+                quizState.reviewIndex += 1;
+                renderReviewItem();
+            }
+        }
+
+        function previousReview() {
+            if (quizState.reviewIndex > 0) {
+                quizState.reviewIndex -= 1;
+                renderReviewItem();
+            }
+        }
+
+        function closeReview() {
+            document.getElementById('quiz-review').classList.remove('active');
+            document.getElementById('quiz-result').classList.add('active');
         }
     </script>
 </body>
