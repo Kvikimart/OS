@@ -2640,8 +2640,28 @@ Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodov
 
         */
 
-        const quizData = window.quizDataSource;
-        const explanations = window.explanationsSource;
+        let quizData = window.quizDataSource || null;
+        let explanations = window.explanationsSource || null;
+
+        function ensureQuizData() {
+            return new Promise((resolve, reject) => {
+                if (quizData && explanations) return resolve();
+                if (window.quizDataSource && window.explanationsSource) {
+                    quizData = window.quizDataSource;
+                    explanations = window.explanationsSource;
+                    return resolve();
+                }
+                const s = document.createElement('script');
+                s.src = 'quizData.js';
+                s.onload = () => {
+                    if (window.quizDataSource) quizData = window.quizDataSource;
+                    if (window.explanationsSource) explanations = window.explanationsSource;
+                    resolve();
+                };
+                s.onerror = (e) => reject(new Error('Failed to load quiz data'));
+                document.head.appendChild(s);
+            });
+        }
 
         const quizState = {
             questions: [],
@@ -2678,7 +2698,14 @@ Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodov
             event.target.classList.add('active');
         }
 
-        function startQuiz() {
+        async function startQuiz() {
+            try {
+                await ensureQuizData();
+            } catch (e) {
+                console.error('Quiz data not available', e);
+                alert('Nepodařilo se načíst otázky. Zkontroluj konzoli.');
+                return;
+            }
             const selectedTopics = [];
             if (document.getElementById('topic-internet').checked) selectedTopics.push('internet');
             if (document.getElementById('topic-network').checked) selectedTopics.push('network');
