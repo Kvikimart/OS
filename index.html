@@ -545,11 +545,23 @@
         }
 
         .quiz-nav-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             gap: 10px;
-            justify-content: space-between;
+            align-items: center;
             margin-top: 16px;
-            flex-wrap: wrap;
+        }
+
+        .quiz-nav-left {
+            justify-self: start;
+        }
+
+        .quiz-nav-center {
+            justify-self: center;
+        }
+
+        .quiz-nav-right {
+            justify-self: end;
         }
 
         .quiz-results {
@@ -1750,9 +1762,9 @@ Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodov
                         <div id="quiz-question-container"></div>
 
                         <div class="quiz-nav-buttons">
-                            <button class="btn" onclick="previousQuestion()">PŘEDCHOZÍ</button>
-                            <button class="btn" onclick="nextQuestion()">DALŠÍ</button>
-                            <button class="btn" onclick="submitQuiz()">ODESLAT</button>
+                            <button class="btn quiz-nav-left" onclick="previousQuestion()">PŘEDCHOZÍ</button>
+                            <button class="btn quiz-nav-center" onclick="submitQuiz()">ODESLAT</button>
+                            <button class="btn quiz-nav-right" onclick="nextQuestion()">DALŠÍ</button>
                         </div>
                     </div>
 
@@ -1784,8 +1796,9 @@ Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodov
         </main>
     </div>
 
+    <script src="quizData.js"></script>
     <script>
-        const quizData = {
+        /* QUIZ BANK LOADED FROM quizData.js
             internet: [
                 {
                     question: 'Co je Internet?',
@@ -2624,6 +2637,11 @@ Jsou součást kyberbezpečnosti, profesní odpovědnosti a správného rozhodov
             'Co je open source vs free software?': 'Open source znamená dostupný kód, free software znamená svobodu.',
             'Co je copyright vs copyleft?': 'Copyright chrání původní dílo před kopírováním, copyleft vyžaduje sdílení pod stejnou licencí.'
         };
+
+        */
+
+        const quizData = window.quizDataSource;
+        const explanations = window.explanationsSource;
 
         const quizState = {
             questions: [],
