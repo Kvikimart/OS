@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Všichni společně v Teams</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0b0e; /* Deep dark background matching the bottom left */
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Bar for Logo/Icon */
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 50%;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .logo-icon:hover {
+            opacity: 1;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left Side Layout */
+        .content-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 10%;
+            padding-right: 5%;
+            z-index: 2;
+            background-color: #0b0b0e;
+        }
+
+        .text-group h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .text-group p {
+            font-size: 1rem;
+            color: #e0e0e0;
+            max-width: 320px;
+            line-height: 1.4;
+            margin-bottom: 40px;
+        }
+
+        /* Button Layout & Styling */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 320px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #5b5fc7; /* Teams signature purple */
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #4f52b2;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #5b5fc7;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(91, 95, 199, 0.1);
+        }
+
+        /* Right Side Layout & Background Image */
+        .image-side {
+            flex: 1.2; /* Takes slightly more space than the text side */
+            position: relative;
+            height: 100%;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Ambient subtle overlay to blend the image left side with the dark UI */
+        .image-side::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(to right, #0b0b0e, transparent);
+            pointer-events: none;
+        }
+
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .content-side {
+                padding: 40px 20px;
+                order: 2;
+                flex: none;
+                height: 60vh;
+            }
+            .image-side {
+                height: 40vh;
+                order: 1;
+                flex: none;
+            }
+            .image-side::after {
+                width: 100%;
+                height: 20%;
+                top: auto;
+                bottom: 0;
+                background: linear-gradient(to top, #0b0b0e, transparent);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <img src="T.png" alt="Logo" class="logo-icon">
+    </div>
+
+    <div class="container">
+        <main class="content-side">
+            <div class="text-group">
+                <h1>Všichni<br>společně v Teams</h1>
+                <p>Zůstaňte ve spojení a zorganizujte si práci, školu i život.</p>
+            </div>
+            
+            <div class="button-group">
+                <a href="#" class="btn btn-primary">Přihlásit se</a>
+                <a href="#" class="btn btn-secondary">Připojit se ke schůzce</a>
+            </div>
+        </main>
+
+        <aside class="image-side">
+            <img src="pexels-artempodrez-7233354.jpg" alt="Background Artwork" class="bg-image">
+        </aside>
+    </div>
+
+</body>
+</html>
